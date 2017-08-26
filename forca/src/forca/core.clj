@@ -5,13 +5,24 @@
 
 (defn lost [] (print "You lost!"))
 
-(defn game [lives] 
+(defn won [] (print "You won!"))
+
+(defn take-another-shot [] (print "Take another shot..."))
+
+(defn has-matched-the-word? [word hits] (empty? (missing-letters word hits)))
+
+(defn missing-letters [word hits] 
+	(remove 
+		(fn [letter] (contains? hits (str letter)))
+		word))
+
+(defn game [lives word hits] 
 	(if (= lives 0)
 		(lost)
-		(do 
-			(print lives)
-			(game (dec 1))	
-		)
+		(if (has-matched-the-word? word hits)
+				(won)
+				(take-another-shot)
+			)
 	)
 )
 
