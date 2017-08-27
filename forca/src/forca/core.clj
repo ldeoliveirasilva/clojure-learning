@@ -7,7 +7,7 @@
 
 (defn won [] (print "You won!"))
 
-(defn take-another-shot [] (print "Take another shot..."))
+(defn read-letter! [] (read-line))
 
 (defn has-matched-the-word? [word hits] (empty? (missing-letters word hits)))
 
@@ -16,13 +16,22 @@
 		(fn [letter] (contains? hits (str letter)))
 		word))
 
+(defn hit? [shot word] (.contains word shot))
+
+(defn eval-shot [shot lives word hits]
+	(if (hit? shot word) 
+		(game lives word (conj hits shot))
+		(game (dec lives) word hits)
+	)
+)
+
 (defn game [lives word hits] 
 	(if (= lives 0)
 		(lost)
 		(if (has-matched-the-word? word hits)
-				(won)
-				(take-another-shot)
-			)
+			(won)
+			(eval-shot (read-letter!) lives word hits)
+		)
 	)
 )
 
