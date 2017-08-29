@@ -21,20 +21,22 @@
 (defn eval-shot [shot lives word hits]
 	(if (hit? shot word) 
 		(game lives word (conj hits shot))
-		(game (dec lives) word hits)
-	)
-)
+		(game (dec lives) word hits)))
 
 (defn game [lives word hits] 
-	(if (= lives 0)
-		(lost)
-		(if (has-matched-the-word? word hits)
-			(won)
-			(eval-shot (read-letter!) lives word hits)
-		)
-	)
-)
-
+	(cond 
+		(= lives 0) (lost)
+		(has-matched-the-word? word hits) (won)
+		:else
+			(let [shot (read-letter!)]
+				(if (hit? shot word)
+					(do 
+						(println "It's a hit!") 
+						(game lives word (conj hits shot)))
+					(do 
+						(println "It's a miss...")
+						(game (dec lives) word hits))))))
+					
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
