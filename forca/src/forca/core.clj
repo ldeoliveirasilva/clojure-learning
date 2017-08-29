@@ -32,10 +32,10 @@
 				(if (hit? shot word)
 					(do 
 						(println "It's a hit!") 
-						(game lives word (conj hits shot)))
+						(recur lives word (conj hits shot)))
 					(do 
 						(println "It's a miss...")
-						(game (dec lives) word hits))))))
+						(recur (dec lives) word hits))))))
 					
 (defn -main
   "I don't do a whole lot ... yet."
