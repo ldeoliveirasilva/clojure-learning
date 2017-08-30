@@ -9,21 +9,26 @@
 
 (defn read-letter! [] (read-line))
 
-(defn has-matched-the-word? [word hits] (empty? (missing-letters word hits)))
-
 (defn missing-letters [word hits] 
 	(remove 
 		(fn [letter] (contains? hits (str letter)))
 		word))
 
+(defn has-matched-the-word? [word hits] (empty? (missing-letters word hits)))
+
 (defn hit? [shot word] (.contains word shot))
 
-(defn eval-shot [shot lives word hits]
-	(if (hit? shot word) 
-		(game lives word (conj hits shot))
-		(game (dec lives) word hits)))
+(defn print-state [lives word hits]
+	(println "You still have" lives "shots") 
+	(doseq [letter (seq word)]
+		(if (contains? hits (str letter))
+			(print letter " ")
+			(print "_" " ")))
+
+	(println))
 
 (defn game [lives word hits] 
+	(print-state lives word hits)
 	(cond 
 		(= lives 0) (lost)
 		(has-matched-the-word? word hits) (won)
