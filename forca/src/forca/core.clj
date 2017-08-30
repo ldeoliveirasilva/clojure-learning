@@ -3,9 +3,11 @@
 
 (def total-of-lives 6)
 
-(defn lost [] (print "You lost!"))
+(def secret-word "WATERMELON")
 
-(defn won [] (print "You won!"))
+(defn lost [] (println "You lost!"))
+
+(defn won [] (println "You won!"))
 
 (defn read-letter! [] (read-line))
 
@@ -41,8 +43,9 @@
 					(do 
 						(println "It's a miss...")
 						(recur (dec lives) word hits))))))
+
+(defn start-game  [] (game total-of-lives secret-word #{}))
 					
 (defn -main
-  "I don't do a whole lot ... yet."
   [& args]
-  (println "Hello, World!"))
+  (start-game))
