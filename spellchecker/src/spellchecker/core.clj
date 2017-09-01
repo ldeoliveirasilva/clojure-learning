@@ -11,13 +11,18 @@
 		(map str/trim)
 		(set)))
 
+(defn distance [from to] (StringUtils/getLevenshteinDistance from to))
+
+(defn min-distance [word] 
+  (apply min-key (partial distance word) words))
+
 (defn correct? [word] (contains? words word))
 
-(defn distance [from to] (StringUtils/getLevenshteinDistance from to))
+
 
 (defn -main
   [& args]
   (let [word (first args)] (
   		if (correct? word)
   		(println "correct")
-  		(println "did u mean xy?"))))
+  		(println "Did you mean" (min-distance word) "?"))))
